@@ -116,21 +116,14 @@ suspend fun predictSL(
         iterablePredictors.gi,
         iterablePredictors.gl,
         iterablePredictors.carbs,
-        iterablePredictors.mds,
-        iterablePredictors.kr,
-        iterablePredictors.ca,
-        iterablePredictors.fe,
         sixHoursPredictors.carbs,
         sixHoursPredictors.protein,
         sixHoursPredictors.fat,
-        pvTwelveHours,
         bg0,
         bmi,
         hbA1C,
         tg,
         hol,
-        weight,
-        age,
         glucoseNt,
         analysisTime
     )
@@ -140,7 +133,7 @@ suspend fun predictSL(
 
     // Get the result
     val output = session.run(mapOf(Pair(inputName, inputTensor)))
-    val result = output["probabilities"].get() as OnnxSequence
+    val result = output["output_probability"].get() as OnnxSequence
     val map = result.value.first().value as HashMap<Long,Float>
     val probability = map[1]?.toDouble() ?: 0.0
     return probability

@@ -93,13 +93,6 @@ class MealAddRecord : Fragment(), FoodInMealListAdapter.InterfaceFoodInMeal {
         bmi = sharedPreferences!!.getFloat("BMI", 20f)
         weightBeforePregnancy = sharedPreferences.getFloat("WEIGHT_BEFORE_PREGNANCY", 60f)
         appType = sharedPreferences.getString("APP_TYPE", "")!!
-        val birthDate = sharedPreferences.getString("BIRTH_DATE", "01.01.2000")!!
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        val dateTimeBirth = LocalDate.parse(birthDate, formatter)
-        age = Period.between(
-            dateTimeBirth,
-            LocalDate.now()
-        ).years.toFloat()
 
         CoroutineScope(Dispatchers.Main).launch {
             val questionnaire = CoroutineScope(Dispatchers.IO).async {
@@ -186,6 +179,14 @@ class MealAddRecord : Fragment(), FoodInMealListAdapter.InterfaceFoodInMeal {
                 val date = tv_Date.text.toString()
                 val dateInMilli = convertDateToMils("$time $date")
                 getTimeIntervalPredictors(dateInMilli)
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                val birthDate = sharedPreferences.getString("BIRTH_DATE", "01.01.2000")!!
+                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                val dateTimeBirth = LocalDate.parse(birthDate, formatter)
+                age = Period.between(
+                    dateTimeBirth,
+                    LocalDate.now()
+                ).years.toFloat()
             }
         }
         dateSubmit = timeDateSelectSetup(childFragmentManager, tv_Time, tv_Date)
