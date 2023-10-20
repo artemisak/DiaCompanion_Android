@@ -129,7 +129,7 @@ suspend fun predictSL(
     )
     val reshapedInputData = arrayOf(numericFeatures)
     val inputTensor = OnnxTensor.createTensor(env, reshapedInputData)
-    val inputName = session.inputNames.first()
+    val inputName = "features"
 
     // Get the result
     val output = session.run(mapOf(Pair(inputName, inputTensor)))
